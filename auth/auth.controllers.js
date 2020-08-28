@@ -37,6 +37,9 @@ const loginController = async (req, res) => {
         if (!isPsswordsEqual) {
             return res.status(400).send('Password is not equal')
         }
+        if (!userFromDB.isValid) {
+            return res.status(401).send('Confirm your account')
+        }
         const token = await jwt.sign({id: userFromDB._id}, process.env.VERIFY_ACCESS_JWT_KEY);
         res.json({
             access_token: token,
