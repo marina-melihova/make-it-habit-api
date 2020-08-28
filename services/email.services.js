@@ -1,7 +1,4 @@
 const nodemailer = require('nodemailer');
-const os = require("os");
-
-const hostname = os.hostname();
 
 const transport = nodemailer.createTransport({
     service: "gmail",
@@ -32,7 +29,7 @@ const sendMail = async (
 
 const sendVerifyEmail = async (email, token) => {
     const html = `
-          <a href="${hostname}/auth/verify/${token}">Confirm your account</a>
+          <a href="${process.env.BACK_URL}/auth/verify/${token}">Confirm your account</a>
     `;
     const response = await sendMail(email, {
         subject: 'Verify your account',
