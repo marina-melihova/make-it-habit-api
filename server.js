@@ -2,6 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRouter = require('./auth/auth.router');
+const habitRouter = require('./habits/habit.router');
+const {
+    checkTokenMiddleware
+} = require('./middlewares/auth.middleware')
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -21,6 +25,7 @@ const createServer = async () => {
         app.use(express.json())
         app.get('/', express.static('public'));
         app.use('/auth', authRouter);
+        app.use('/habit', checkTokenMiddleware, habitRouter);
         app.listen(PORT, () => console.log(`Sever listening on port: ${PORT}`))
 
     } catch (e) {

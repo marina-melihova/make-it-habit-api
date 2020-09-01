@@ -3,11 +3,13 @@ const {
     registrationController,
     loginController,
     verifyToken,
+    resendVerifyToken,
 } = require('./auth.controllers')
 
 const  {
     validatorRegistrationMiddleware,
     validatorLoginMiddleware,
+    validatorResendVerifyMiddleware,
 } = require('./auth.validator')
 
 const authRouter = express.Router()
@@ -25,6 +27,11 @@ authRouter.post(
 authRouter.get(
     '/verify/:verifyToken',
     verifyToken
+);
+authRouter.post(
+    '/sendVerify',
+    validatorResendVerifyMiddleware,
+    resendVerifyToken
 );
 
 

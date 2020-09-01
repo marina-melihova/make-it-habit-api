@@ -92,6 +92,25 @@ const LoginSchema = Joi.object({
         }),
 })
 
+const ResendVerifySchema = Joi.object({
+    email: Joi
+        .string()
+        .required()
+        .email()
+        .error(errors => {
+            errors.forEach(err => {
+                switch (err.code) {
+                    case "string.email":
+                        err.message = "\"email\" must has type as example@mail.com";
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return errors;
+        }),
+})
+
 
 const validation = async (Schema, data) =>  {
     const {error} = await Schema.validate(data);
@@ -122,7 +141,17 @@ const validatorLoginMiddleware = async (req, res, next) => {
     }
 }
 
+const validatorResendVerifyMiddleware = async (req, res, next) => {
+    try {
+        await validation(ResendVerifySchema, req.body)
+        next()
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+}
+
 module.exports = {
     validatorRegistrationMiddleware,
     validatorLoginMiddleware,
+    validatorResendVerifyMiddleware,
 }
