@@ -1,6 +1,9 @@
 const express = require('express');
 
 const habitRouter = express.Router()
+const {
+    checkTokenMiddleware
+} = require('../middlewares/auth.middleware')
 
 const {
     createHabit,
@@ -16,22 +19,26 @@ const {
 
 habitRouter.get(
     '/',
+    checkTokenMiddleware,
     getHabits,
 )
 
 habitRouter.post(
     '/',
     createHabitValidationMiddleware,
+    checkTokenMiddleware,
     createHabit,
 )
 
 habitRouter.delete(
     '/:habitId',
+    checkTokenMiddleware,
     deleteHabit,
 )
 
 habitRouter.patch(
     '/',
+    checkTokenMiddleware,
     updateHabitValidationMiddleware,
     updateHabit,
 )
