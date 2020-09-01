@@ -25,7 +25,7 @@ const createServer = async () => {
         app.use(express.json())
         app.get('/', express.static('public'));
         app.use('/auth', authRouter);
-        app.use('/habit', checkTokenMiddleware, habitRouter);
+        app.use('/habits', checkTokenMiddleware, habitRouter);
         app.listen(PORT, () => console.log(`Sever listening on port: ${PORT}`))
 
     } catch (e) {
