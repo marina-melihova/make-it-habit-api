@@ -49,7 +49,7 @@ class HabitModel {
         return this.db.find({ownerId: userId}, {ownerId: false});
     }
 
-    getHabitByQuery = async query => {
+    getHabitsByQuery = async query => {
         return this.db.find(query)
     }
 

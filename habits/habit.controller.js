@@ -35,11 +35,11 @@ const getHabits = async (req, res) => {
 const deleteHabit = async (req, res) => {
     try {
         const {userId, params: {habitId}} = req;
-        const habit = await Habits.getHabitByQuery({
+        const habits = await Habits.getHabitsByQuery({
             ownerId: userId,
             _id: habitId,
         });
-        if (!habit.length) {
+        if (!habits.length) {
             return res.status(404).send('Habit not found')
         }
         await Habits.deleteHabitById(habitId)
@@ -55,14 +55,31 @@ const updateHabit = async (req, res) => {
         if (body.data && body.data.length > 21) {
             return res.status(400).send('Data property can not be more then 21 items')
         }
-        const habit = await Habits.getHabitByQuery({
+        const habitsWithId = await Habits.getHabitsByQuery({
             ownerId: userId,
             _id: body.id,
         });
-        if (!habit.length) {
+        if (!habitsWithId.length) {
             return res.status(404).send('Habit not found')
         }
+        if (body.data) {
+            const countOfStatusTrueHabit = body.data.reduce((counter, nextStatus) => {
+                return counter + (nextStatus ? 1 : 0)
+            }, 0)
+            body.efficiency = Math.floor((countOfStatusTrueHabit * 100) / 21)
+        }
         const updatedHabit = await Habits.updateHabit(body);
+
+        const habits = await Habits.getHabitsByQuery({
+            ownerId: userId,
+        });
+
+        let pointsCount = habits.reduce((counter, habit) => {
+            return counter + habit.efficiency;
+        }, 0)
+
+        await Users.updateUserById(userId, {points: pointsCount})
+
         res.json(updatedHabit);
     } catch (e) {
         res.status(500).send('Internal server error')
