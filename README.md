@@ -105,6 +105,7 @@ BODY
 Request:
 {
   "id": "5f4d9edf6375b430bda8ce92",
+  "name": "New name of habit",
   "data": [false, true, false, true, null, null ....]
 }
 
@@ -114,6 +115,6 @@ Response: status 200
   "data": [false, true, false, true, null, null ....],
   "efficiency": 0,
   "_id": "5f4d9edf6375b430bda8ce92",
-  "name": "My Habit"
+  "name": "New name of habit"
 }
 ```
