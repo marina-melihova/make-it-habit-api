@@ -78,9 +78,12 @@ const updateHabit = async (req, res) => {
             return counter + habit.efficiency;
         }, 0)
 
-        await Users.updateUserById(userId, {points: pointsCount})
+        const updatedUser = await Users.updateUserById(userId, {points: pointsCount})
 
-        res.json(updatedHabit);
+        res.json({
+            total: updatedUser.points,
+            updatedHabit,
+        });
     } catch (e) {
         res.status(500).send('Internal server error')
     }
