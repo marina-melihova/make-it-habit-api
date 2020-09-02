@@ -35,15 +35,28 @@ const getHabits = async (req, res) => {
 const deleteHabit = async (req, res) => {
     try {
         const {userId, params: {habitId}} = req;
-        const habits = await Habits.getHabitsByQuery({
+        const habitsWithId = await Habits.getHabitsByQuery({
             ownerId: userId,
             _id: habitId,
         });
-        if (!habits.length) {
+        if (!habitsWithId.length) {
             return res.status(404).send('Habit not found')
         }
         await Habits.deleteHabitById(habitId)
-        res.end();
+
+        const habits = await Habits.getHabitsByQuery({
+            ownerId: userId,
+        });
+
+        let pointsCount = habits.reduce((counter, habit) => {
+            return counter + habit.efficiency;
+        }, 0)
+
+        const updatedUser = await Users.updateUserById(userId, {points: pointsCount})
+
+        res.json({
+            total: updatedUser.points,
+        });
     } catch (e) {
         res.status(500).send('Internal server error')
     }
