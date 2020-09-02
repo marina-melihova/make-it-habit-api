@@ -52,7 +52,7 @@ const deleteHabit = async (req, res) => {
 const updateHabit = async (req, res) => {
     try {
         const {userId, body} = req;
-        if (body.data.length > 21) {
+        if (body.data && body.data.length > 21) {
             return res.status(400).send('Data property can not be more then 21 items')
         }
         const habit = await Habits.getHabitByQuery({
@@ -62,7 +62,7 @@ const updateHabit = async (req, res) => {
         if (!habit.length) {
             return res.status(404).send('Habit not found')
         }
-        const updatedHabit = await Habits.updateHabit(body.id, body.data);
+        const updatedHabit = await Habits.updateHabit(body);
         res.json(updatedHabit);
     } catch (e) {
         res.status(500).send('Internal server error')

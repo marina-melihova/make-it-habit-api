@@ -57,8 +57,8 @@ class HabitModel {
         return this.db.findByIdAndDelete(habitId);
     }
 
-    updateHabit = async (habitId, data) => {
-        return this.db.findByIdAndUpdate(habitId, {data}, {new: true});
+    updateHabit = async ({id, ...newData}) => {
+        return this.db.findByIdAndUpdate(id, {...newData}, {new: true});
     }
 }
 

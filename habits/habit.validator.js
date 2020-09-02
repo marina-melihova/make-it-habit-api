@@ -10,6 +10,7 @@ const HabitCreateSchema = Joi.object({
 
 const HabitUpdateSchema = Joi.object({
     id: Joi.string().required(),
+    name: Joi.string(),
     data: Joi.array().items(Joi.alternatives().try(Joi.boolean(), Joi.allow(null)))
 })
 
