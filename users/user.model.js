@@ -52,9 +52,6 @@ class UserModel {
         return this.db.findByIdAndUpdate(userId, data, {new: true});
     }
 
-    updateUserPointsById = async (userId, points) => {
-        return this.db.findByIdAndUpdate(userId, {points}, {new: true});
-    }
 }
 
 module.exports = new UserModel();

@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRouter = require('./auth/auth.router');
 const habitRouter = require('./habits/habit.router');
+const {updateCounterJob} = require('./services/cron.serivce');
 
 dotenv.config();
 const PORT = process.env.PORT;
@@ -18,7 +19,7 @@ const createServer = async () => {
             res.setHeader('Access-Control-Allow-Methods', '*')
             next();
         })
-
+        updateCounterJob();
         app.use(express.json())
         app.get('/', express.static('public'));
         app.use('/auth', authRouter);
