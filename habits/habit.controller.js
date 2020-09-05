@@ -76,10 +76,14 @@ const updateHabit = async (req, res) => {
             return res.status(404).send('Habit not found')
         }
         if (body.data) {
-            const countOfStatusTrueHabit = body.data.reduce((counter, nextStatus) => {
+            const arrStatusAsBooleanHabit = body.data
+                .filter(habit => typeof habit === 'boolean');
+            const countOfStatusAsBooleanHabit =  arrStatusAsBooleanHabit.reduce((counter, nextStatus) => {
                 return counter + (nextStatus ? 1 : 0)
             }, 0)
-            body.efficiency = Math.floor((countOfStatusTrueHabit * 100) / 21)
+            body.efficiency = arrStatusAsBooleanHabit.length ?
+                Math.floor((countOfStatusAsBooleanHabit * 100) / arrStatusAsBooleanHabit.length) :
+                0;
         }
         const updatedHabit = await Habits.updateHabit(body);
 
