@@ -1,5 +1,9 @@
 const Habits = require('./habit.model');
 const Users = require('../users/user.model');
+const {
+    getEfficientyOfHabit,
+    getTotalPointsOfDoneHabits,
+} = require('../services/habitCalculation.service');
 
 const createHabit = async (req, res) => {
     try {
@@ -48,11 +52,9 @@ const deleteHabit = async (req, res) => {
             ownerId: userId,
         });
 
-        let pointsCount = habits.reduce((counter, habit) => {
-            return counter + habit.efficiency;
-        }, 0)
-
-        const updatedUser = await Users.updateUserById(userId, {points: pointsCount})
+        const updatedUser = await Users.updateUserById(userId, {
+            points: getTotalPointsOfDoneHabits(habits)
+        })
 
         res.json({
             total: updatedUser.points,
@@ -76,14 +78,7 @@ const updateHabit = async (req, res) => {
             return res.status(404).send('Habit not found')
         }
         if (body.data) {
-            const arrStatusAsBooleanHabit = body.data
-                .filter(habit => typeof habit === 'boolean');
-            const countOfStatusAsBooleanHabit =  arrStatusAsBooleanHabit.reduce((counter, nextStatus) => {
-                return counter + (nextStatus ? 1 : 0)
-            }, 0)
-            body.efficiency = arrStatusAsBooleanHabit.length ?
-                Math.floor((countOfStatusAsBooleanHabit * 100) / arrStatusAsBooleanHabit.length) :
-                0;
+            body.efficiency = getEfficientyOfHabit(body.data)
         }
         const updatedHabit = await Habits.updateHabit(body);
 
@@ -91,11 +86,9 @@ const updateHabit = async (req, res) => {
             ownerId: userId,
         });
 
-        let pointsCount = habits.reduce((counter, habit) => {
-            return counter + habit.efficiency;
-        }, 0)
-
-        const updatedUser = await Users.updateUserById(userId, {points: pointsCount})
+        const updatedUser = await Users.updateUserById(userId, {
+            points: getTotalPointsOfDoneHabits(habits)
+        })
 
         res.json({
             total: updatedUser.points,
