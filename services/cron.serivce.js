@@ -19,7 +19,7 @@ const getNumberOfDaysPassed = fromDate => {
     todayDate = new Date(todayDate).setSeconds(0)
     todayDate = new Date(todayDate).setMilliseconds(0)
 
-    return (new Date(todayDate) - new Date(startDate)) / (60 * 60 * 24 * 1000)
+    return ((new Date(todayDate) - new Date(startDate)) / (60 * 60 * 24 * 1000)) + 1
 }
 
 const getNewData = (data, startDay) => {
@@ -27,7 +27,7 @@ const getNewData = (data, startDay) => {
     return data.map((item, index) => index < daysPassed && item === null ? false : item);
 }
 
-const updateCounterJob = () => cron.schedule('00 01 00 * * *', async () => {
+const updateCounterJob = async () => {
     const users = await Users.db.find();
     for (let user of users) {
         const habits = await Habits.getHabitsByUserID(user._id)
@@ -45,10 +45,7 @@ const updateCounterJob = () => cron.schedule('00 01 00 * * *', async () => {
         console.log(`User: ${user.name} has points: ${totalCount}`)
     }
     console.log('Job done')
-}, {
-    scheduled: true,
-    timezone: 'Europe/Kiev'
-});
+};
 
 
 //

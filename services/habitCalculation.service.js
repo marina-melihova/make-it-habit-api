@@ -15,7 +15,7 @@ const getEfficientyOfHabit = data => {
 const getTotalPointsOfDoneHabits = habits => {
     /// Get total points for habit
     const getHabitDoneCount = habit => habit.data.reduce((counter, nextItem, index) => {
-        return counter + (nextItem === null || nextItem === false ? 0 : index + 1);
+        return counter + (nextItem === null ? 0 : nextItem === false ? -(index+1) : index + 1);
     }, 0)
 
     /// Get total points of all habit

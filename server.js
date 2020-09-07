@@ -19,7 +19,7 @@ const createServer = async () => {
             res.setHeader('Access-Control-Allow-Methods', '*')
             next();
         })
-        updateCounterJob();
+        await updateCounterJob();
         app.use(express.json())
         app.get('/', express.static('public'));
         app.use('/auth', authRouter);
