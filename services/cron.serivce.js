@@ -19,7 +19,7 @@ const getNumberOfDaysPassed = fromDate => {
     todayDate = new Date(todayDate).setSeconds(0)
     todayDate = new Date(todayDate).setMilliseconds(0)
 
-    return ((new Date(todayDate) - new Date(startDate)) / (60 * 60 * 24 * 1000)) + 1
+    return ((new Date(todayDate) - new Date(startDate)) / (60 * 60 * 24 * 1000))
 }
 
 const getNewData = (data, startDay) => {
