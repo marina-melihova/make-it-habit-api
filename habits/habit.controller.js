@@ -11,8 +11,8 @@ const createHabit = async (req, res) => {
         const createdHabit = await Habits.create({
             ownerId: userId,
             name: body.name,
-            planningTime: 'asdas',
-            iteration: 'asdasdasd'
+            planningTime: body.planningTime,
+            iteration: body.iteration,
         });
         res.json(createdHabit)
     } catch (e) {

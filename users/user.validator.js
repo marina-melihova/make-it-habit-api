@@ -4,7 +4,7 @@ const UpdateUserSchema = Joi.object({
     firstName: Joi
         .string()
         .allow('')
-        .pattern(new RegExp('^[a-zA-ZА-Яа-я]{2,8}$'))
+        .pattern(new RegExp('^[a-zA-ZА-Яа-я]{2,}$'))
         .error(errors => {
             errors.forEach(err => {
                 switch (err.code) {
@@ -21,7 +21,7 @@ const UpdateUserSchema = Joi.object({
     lastName: Joi
         .string()
         .allow('')
-        .pattern(new RegExp('^[a-zA-ZА-Яа-я]{2,8}$'))
+        .pattern(new RegExp('^[a-zA-ZА-Яа-я]{2,}$'))
         .error(errors => {
             errors.forEach(err => {
                 switch (err.code) {
