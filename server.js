@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const authRouter = require('./auth/auth.router');
 const habitRouter = require('./habits/habit.router');
+const userRouter = require('./users/user.router');
+
 const {updateCounterJob} = require('./services/cron.serivce');
 
 dotenv.config();
@@ -19,11 +21,12 @@ const createServer = async () => {
             res.setHeader('Access-Control-Allow-Methods', '*')
             next();
         })
-        await updateCounterJob();
+        // await updateCounterJob();
         app.use(express.json())
         app.get('/', express.static('public'));
         app.use('/auth', authRouter);
         app.use('/habits', habitRouter);
+        app.use('/users', userRouter)
         app.listen(PORT, () => console.log(`Sever listening on port: ${PORT}`))
 
     } catch (e) {

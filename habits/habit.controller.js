@@ -8,15 +8,15 @@ const {
 const createHabit = async (req, res) => {
     try {
         const {userId, body} = req;
-        const habitsCount = await Habits.getHabitsByUserID(userId);
-        if (habitsCount.length >= 10) {
-            res.status(403).send('Habits count can not be more than 10 items')
-            return;
-        }
-        const createdHabit = await Habits.create({ownerId: userId, name: body.name});
+        const createdHabit = await Habits.create({
+            ownerId: userId,
+            name: body.name,
+            planningTime: 'asdas',
+            iteration: 'asdasdasd'
+        });
         res.json(createdHabit)
     } catch (e) {
-        res.status(500).send('Internal server error')
+        res.status(500).send(e)
     }
 }
 
@@ -26,8 +26,15 @@ const getHabits = async (req, res) => {
         const user = await Users.getUserById(userId);
         const habits = await Habits.getHabitsByUserID(userId);
         const responseModel = {
-            userName: user.name,
-            total: user.points,
+            user: {
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                registerData: user.registerData,
+                avatar: user.avatar,
+                phone: user.phone,
+                id: user._id,
+            },
             habits,
         }
         res.json(responseModel)

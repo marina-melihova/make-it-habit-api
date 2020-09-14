@@ -5,7 +5,13 @@ const HabitCreateSchema = Joi.object({
         .string()
         .required()
         .min(2)
-        .max(30)
+        .max(30),
+    iteration: Joi
+        .string()
+        .required(),
+    planningTime: Joi
+        .string()
+        .required(),
 })
 
 const HabitUpdateSchema = Joi.object({

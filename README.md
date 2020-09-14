@@ -26,26 +26,13 @@ BODY
 
 Request:
 {
-  "name": "Danil",
   "email": "naydyonovdanil@gmail.com",
   "password": "Qwerty123"
 }
 
 Response: status 201
 ```
-### Re-send to email verify link
-* URN: /auth/sendVerify
-* METHOD: POST
-```json
-BODY
 
-Request:
-{
-  "email": "naydyonovdanil@gmail.com",
-}
-
-Response: status 200
-```
 ### Get own habits
 * URN: /habits
 * METHOD: GET
@@ -68,6 +55,8 @@ BODY
 Request:
 {
   "name": "My Habit"
+, "planningTime": "plan time",
+  "iteration": "Some iteration"
 }
 
 Response: 
@@ -76,7 +65,9 @@ Response:
   "data": [null, null, null ...],
   "efficiency": 0,
   "_id": "5f4d9edf6375b430bda8ce92",
-  "name": "My Habit"
+  "name": "My Habit",
+  "planningTime": "plan time",
+  "iteration": "Some iteration"
 }
 ```
 ### Delete habit

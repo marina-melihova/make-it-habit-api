@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const RegistrationSchema = Joi.object({
+const UpdateUserSchema = Joi.object({
     firstName: Joi
         .string()
         .allow('')
@@ -35,71 +35,35 @@ const RegistrationSchema = Joi.object({
             return errors;
         }),
 
+    phone: Joi
+        .string()
+        .allow('')
+        .pattern(new RegExp('^[0-9]{11}$'))
+        .error(errors => {
+            errors.forEach(err => {
+                switch (err.code) {
+                    case "string.pattern.base":
+                        err.message = "\"phone\" must consists of only 11 numbers"
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return errors;
+        }),
+
+    avatar: Joi
+        .string()
+        .allow(''),
+
     email: Joi
         .string()
-        .required()
         .email()
         .error(errors => {
             errors.forEach(err => {
                 switch (err.code) {
                     case "string.email":
                         err.message = "\"email\" must has type as example@mail.com";
-                        break;
-                    default:
-                        break;
-                }
-            });
-            return errors;
-        }),
-
-    password: Joi
-        .string()
-        .required()
-        .pattern(/^[a-zA-Z0-9]{8,16}$/)
-        .error(errors => {
-            errors.forEach(err => {
-                switch (err.code) {
-                    case "string.pattern.base":
-                        err.message = `
-                            "password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters`;
-                        break;
-                    default:
-                        break;
-                }
-            });
-            return errors;
-        }),
-})
-
-const LoginSchema = Joi.object({
-
-    email: Joi
-        .string()
-        .required()
-        .email()
-        .error(errors => {
-            errors.forEach(err => {
-                switch (err.code) {
-                    case "string.email":
-                        err.message = "\"email\" must has type as example@mail.com";
-                        break;
-                    default:
-                        break;
-                }
-            });
-            return errors;
-        }),
-
-    password: Joi
-        .string()
-        .required()
-        .pattern(/^[a-zA-Z0-9]{8,16}$/)
-        .error(errors => {
-            errors.forEach(err => {
-                switch (err.code) {
-                    case "string.pattern.base":
-                        err.message = `
-                            "password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters`;
                         break;
                     default:
                         break;
@@ -121,18 +85,9 @@ const validation = async (Schema, data) =>  {
     }
 }
 
-const validatorRegistrationMiddleware = async (req, res, next) => {
+const validatorUpdateUserMiddleware = async (req, res, next) => {
     try {
-        await validation(RegistrationSchema, req.body)
-        next()
-    } catch (e) {
-        res.status(400).send(e.message)
-    }
-}
-
-const validatorLoginMiddleware = async (req, res, next) => {
-    try {
-        await validation(LoginSchema, req.body)
+        await validation(UpdateUserSchema, req.body)
         next()
     } catch (e) {
         res.status(400).send(e.message)
@@ -140,6 +95,5 @@ const validatorLoginMiddleware = async (req, res, next) => {
 }
 
 module.exports = {
-    validatorRegistrationMiddleware,
-    validatorLoginMiddleware,
+    validatorUpdateUserMiddleware
 }

@@ -30,6 +30,16 @@ const HabitSchema = new mongoose.Schema({
         default: 0,
         required: true,
     },
+    planningTime: {
+        type: String,
+        default: '',
+        required: true,
+    },
+    iteration: {
+        type: String,
+        default: '',
+        required: true,
+    },
 }, {versionKey: false});
 
 class HabitModel {
@@ -41,6 +51,8 @@ class HabitModel {
         const habitModel = {
             name: data.name,
             ownerId: new mongoose.Types.ObjectId(data.ownerId),
+            planningTime: data.planningTime,
+            iteration: data.iteration,
         }
         return this.db.create(habitModel);
     }
