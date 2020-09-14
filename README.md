@@ -137,3 +137,56 @@ Response: status 200
   "iteration": "Some iteration"
 }
 ```
+
+### Update Quize Info
+* URN: /users/updateQuizInfo
+* METHOD: POST
+```json
+HEADER
+
+Authorization: <Your JWT token>
+```
+```json
+BODY
+
+Request:
+{
+  "smokeYears": 1,
+  "cigarettePerDay": 2,
+  "cigarettePerTime": 3,
+  "cigarettePackPrice": 5
+}
+
+Response: status 200
+{
+  "smokeYears": 1,
+  "cigarettePerDay": 2,
+  "cigarettePerTime": 3,
+  "cigarettePackPrice": 5
+}
+```
+
+### Update Cigarettes Info
+* URN: /users/updateCigarettes
+* METHOD: POST
+```json
+HEADER
+
+Authorization: <Your JWT token>
+```
+```json
+BODY
+
+Request:
+{
+   "startedAt": "2020-09-14T09:11:03.448Z",
+   "data": [ 12,null ...]
+}
+
+Response: status 200
+{
+   "startedAt": "2020-09-14T09:11:03.448Z",
+   "data": [ 12,null ...]
+}
+```
+

@@ -73,6 +73,26 @@ const UpdateUserSchema = Joi.object({
         }),
 })
 
+const UpdateQuizInfoSchema = Joi.object({
+    smokeYears: Joi
+        .number()
+        .required(),
+    cigarettePerDay: Joi
+        .number()
+        .required(),
+    cigarettePerTime: Joi
+        .number()
+        .required(),
+    cigarettePackPrice: Joi
+        .number()
+        .required(),
+})
+
+const UpdateCigarettesSchema = Joi.object({
+    data: Joi.array().items(Joi.alternatives().try(Joi.number(), Joi.allow(null))),
+    startedAt: Joi.date().iso(),
+})
+
 
 const validation = async (Schema, data) =>  {
     const {error} = await Schema.validate(data);
@@ -94,6 +114,26 @@ const validatorUpdateUserMiddleware = async (req, res, next) => {
     }
 }
 
+const validatorUpdateQuizInfoMiddleware = async (req, res, next) => {
+    try {
+        await validation(UpdateQuizInfoSchema, req.body)
+        next()
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+}
+
+const validatorUpdateCigarettesMiddleware = async (req, res, next) => {
+    try {
+        await validation(UpdateCigarettesSchema, req.body)
+        next()
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+}
+
 module.exports = {
-    validatorUpdateUserMiddleware
+    validatorUpdateUserMiddleware,
+    validatorUpdateQuizInfoMiddleware,
+    validatorUpdateCigarettesMiddleware
 }

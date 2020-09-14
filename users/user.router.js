@@ -1,10 +1,14 @@
 const express = require('express');
 const {
-    updateUserController
+    updateUserController,
+    updateUserQuizInfoController,
+    updateUserCigarettesController
 } = require('./user.controllers')
 
 const  {
     validatorUpdateUserMiddleware,
+    validatorUpdateQuizInfoMiddleware,
+    validatorUpdateCigarettesMiddleware,
 } = require('./user.validator')
 
 const  {
@@ -19,6 +23,21 @@ userRouter.patch(
     validatorUpdateUserMiddleware,
     updateUserController
 )
+
+userRouter.post(
+    '/updateQuizInfo',
+    checkTokenMiddleware,
+    validatorUpdateQuizInfoMiddleware,
+    updateUserQuizInfoController
+)
+
+userRouter.post(
+    '/updateCigarettes',
+    checkTokenMiddleware,
+    validatorUpdateCigarettesMiddleware,
+    updateUserCigarettesController,
+)
+
 
 
 module.exports = userRouter;
