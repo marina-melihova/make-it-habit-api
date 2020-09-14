@@ -34,7 +34,8 @@ const getHabits = async (req, res) => {
                 avatar: user.avatar,
                 phone: user.phone,
                 id: user._id,
-                quizInfo: user.quizInfo
+                quizInfo: user.quizInfo,
+                cigarettes: user.cigarettes,
             },
             habits,
         }

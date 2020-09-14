@@ -28,6 +28,9 @@ const updateUserQuizInfoController = async (req, res) => {
 const updateUserCigarettesController = async (req, res) => {
     try {
         const {body} = req;
+        if (body.startedAt) {
+            body.startedAt = new Date(body.startedAt).toISOString();
+        }
         const updatedUser = await User.updateCigarettesInfo(req.userId, body);
         res.status(200).json(updatedUser.cigarettes);
     } catch (e) {
