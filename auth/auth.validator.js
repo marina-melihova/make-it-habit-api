@@ -109,6 +109,42 @@ const LoginSchema = Joi.object({
         }),
 })
 
+const UpdatePasswordSchema = Joi.object({
+    password: Joi
+        .string()
+        .required()
+        .pattern(/^[a-zA-Z0-9]{8,16}$/)
+        .error(errors => {
+            errors.forEach(err => {
+                switch (err.code) {
+                    case "string.pattern.base":
+                        err.message = `
+                            "password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters`;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return errors;
+        }),
+    confirmPassword: Joi
+        .valid(Joi.ref('password'))
+        .error(errors => {
+            errors.forEach(err => {
+                switch (err.code) {
+                    case "any.only":
+                        err.message = `
+                                Password and confirmPassword must be equal`;
+                        break;
+                    default:
+                        break;
+                }
+            });
+            return errors;
+        }),
+})
+
+
 
 const validation = async (Schema, data) =>  {
     const {error} = await Schema.validate(data);
@@ -139,7 +175,17 @@ const validatorLoginMiddleware = async (req, res, next) => {
     }
 }
 
+const validatorUpdatePasswordMiddleware = async (req, res, next) => {
+    try {
+        await validation(UpdatePasswordSchema, req.body)
+        next()
+    } catch (e) {
+        res.status(400).send(e.message)
+    }
+}
+
 module.exports = {
     validatorRegistrationMiddleware,
     validatorLoginMiddleware,
+    validatorUpdatePasswordMiddleware,
 }

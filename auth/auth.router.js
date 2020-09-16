@@ -1,12 +1,17 @@
 const express = require('express');
 const {
+    checkTokenMiddleware
+} = require('../middlewares/auth.middleware')
+const {
     registrationController,
     loginController,
+    updatePasswordController,
 } = require('./auth.controllers')
 
 const  {
     validatorRegistrationMiddleware,
     validatorLoginMiddleware,
+    validatorUpdatePasswordMiddleware
 } = require('./auth.validator')
 
 const authRouter = express.Router()
@@ -20,6 +25,13 @@ authRouter.post(
     '/login',
     validatorLoginMiddleware,
     loginController
+)
+
+authRouter.post(
+    '/updatePassword',
+    checkTokenMiddleware,
+    validatorUpdatePasswordMiddleware,
+    updatePasswordController
 )
 
 

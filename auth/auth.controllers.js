@@ -44,7 +44,19 @@ const loginController = async (req, res) => {
     }
 }
 
+const updatePasswordController = async (req, res) => {
+    try {
+        const {userId} = req;
+        const password = await bcrypt.hash(req.body.password, +process.env.SALT);
+        const updatedUser = await User.updateUserById(userId, {password});
+        res.end()
+    } catch (e) {
+        res.status(500).send('Server error');
+    }
+}
+
 module.exports = {
     registrationController,
     loginController,
+    updatePasswordController,
 }

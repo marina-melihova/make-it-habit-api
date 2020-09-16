@@ -32,6 +32,24 @@ Request:
 
 Response: status 201
 ```
+### Update password
+* URN: /auth/updatePassword
+* METHOD: POST
+```json
+HEADER
+
+Authorization: <Your JWT token>
+
+BODY
+
+Request:
+{
+  "password": "NewPassword123",
+  "confirmPassword": "NewPassword123"
+}
+
+Response: status 200
+```
 
 ### Get own habits
 * URN: /habits
