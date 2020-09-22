@@ -32,6 +32,13 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         required: true,
     },
+    cards: [{
+        type: Object,
+    }],
+    subscription: {
+        type: String,
+        default: '',
+    },
     password: {
         type: String,
         required: true,
@@ -54,6 +61,9 @@ const UserSchema = new mongoose.Schema({
             startedAt: new Date(),
         }
     },
+    payments: [{
+        type: Object,
+    }]
 }, {versionKey: false});
 
 class UserModel {
@@ -99,6 +109,18 @@ class UserModel {
                 data: data.data,
                 startedAt: data.startedAt,
             }
+        }, {new: true});
+    }
+
+    updateSubscription = async (userId, plan) => {
+        return this.db.findByIdAndUpdate(userId, {
+            subscription: plan 
+        }, {new: true});
+    }
+
+    addPayment = async (userId, payment) => {
+        return this.db.findByIdAndUpdate(userId, {
+            $push: {payments: payment}
         }, {new: true});
     }
 

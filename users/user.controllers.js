@@ -38,9 +38,30 @@ const updateUserCigarettesController = async (req, res) => {
     }
 }
 
+const updateUserSubscriptionController = async (req, res) => {
+    try {
+        const {plan} = req.body;
+        await User.updateSubscription(req.userId, plan);
+        res.end()
+    } catch (e) {
+        res.status(500).send(e);
+    }
+}
+
+const addPaymentController = async (req, res) => {
+    try {
+        await User.addPayment(req.userId, req.body);
+        res.end()
+    } catch (e) {
+        res.status(500).send(e);
+    }
+}
+
 
 module.exports = {
     updateUserController,
     updateUserQuizInfoController,
     updateUserCigarettesController,
+    updateUserSubscriptionController,
+    addPaymentController,
 }

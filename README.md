@@ -208,3 +208,42 @@ Response: status 200
 }
 ```
 
+### Add payment card
+* URN: /users/addPayment
+* METHOD: POST
+```json
+HEADER
+
+Authorization: <Your JWT token>
+```
+```json
+BODY
+
+Request:
+{
+   "number": "4549568721099231",
+   "timeExpiration": "02/22"
+}
+
+Response: status 200
+```
+
+### Add payment card
+* URN: /users/updateSubscription
+* METHOD: POST
+```json
+HEADER
+
+Authorization: <Your JWT token>
+```
+```json
+BODY
+
+Request:
+{
+   "plan": "name of plan",
+}
+
+Response: status 200
+```
+

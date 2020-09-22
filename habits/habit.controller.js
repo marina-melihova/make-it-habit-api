@@ -36,6 +36,8 @@ const getHabits = async (req, res) => {
                 id: user._id,
                 quizInfo: user.quizInfo,
                 cigarettes: user.cigarettes,
+                subscription: user.subscription,
+                payments: user.payments
             },
             habits,
         }

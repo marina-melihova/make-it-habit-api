@@ -2,7 +2,9 @@ const express = require('express');
 const {
     updateUserController,
     updateUserQuizInfoController,
-    updateUserCigarettesController
+    updateUserCigarettesController,
+    updateUserSubscriptionController,
+    addPaymentController
 } = require('./user.controllers')
 
 const  {
@@ -38,6 +40,16 @@ userRouter.post(
     updateUserCigarettesController,
 )
 
+userRouter.post(
+    '/updateSubscription',
+    checkTokenMiddleware,
+    updateUserSubscriptionController,
+)
 
+userRouter.post(
+    '/addPayment',
+    checkTokenMiddleware,
+    addPaymentController,
+)
 
 module.exports = userRouter;
