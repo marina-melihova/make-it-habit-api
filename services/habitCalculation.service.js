@@ -3,9 +3,7 @@ const getEfficientyOfHabit = data => {
         return counter + (nextStatus ? 1 : 0)
     }, 0)
     /// Calc efficienty as percent
-    return arrStatusAsBooleanHabit.length ?
-        Math.floor((countOfStatusAsBooleanHabit * 100) / 21) :
-        0;
+    return Math.floor((countOfStatusAsBooleanHabit * 100) / 21)
 }
 
 const getTotalPointsOfDoneHabits = habits => {
